@@ -17,15 +17,15 @@ class _GirisEkraniState extends State<GirisEkrani> {
   TextEditingController? _pass;
   @override
   void initState() {
-    email = TextEditingController();
-    pass = TextEditingController();
+    _email = TextEditingController();
+    _pass = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    email?.dispose();
-    pass?.dispose();
+    _email?.dispose();
+    _pass?.dispose();
 
     super.dispose();
   }
@@ -37,7 +37,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print(email!.text);
+            print(user!.displayName);
           },
         ),
         body: SingleChildScrollView(
@@ -170,16 +170,14 @@ class _GirisEkraniState extends State<GirisEkrani> {
   }
 
   void girisYap() async {
-    String _emailgir = _email!.text.toString();
-    String _passgir = _pass!.text.toString();
-
+    String _emailgir = _email!.text;
+    String _passgir = _pass!.text;
     try {
       if (user == null) {
         oturumAcanUser = await auth.signInWithEmailAndPassword(
             email: _emailgir, password: _passgir);
+        user = auth.currentUser;
       }
-      print(user!.displayName.toString());
-      print(oturumAcanUser!.user!.displayName);
     } catch (e) {
       print(e);
     }

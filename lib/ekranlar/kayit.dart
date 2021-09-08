@@ -319,7 +319,7 @@ class _KayitsayfasiState extends State<Kayitsayfasi> {
       yeniUser!.updateDisplayName(String_name + String_surname);
 
       yeniUser.sendEmailVerification();
-
+      user = auth.currentUser;
       FirebasekayitEkle(
           String_name, String_surname, String_email, Isletme_Mi, yeniUser.uid);
 
