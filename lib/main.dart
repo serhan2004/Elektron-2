@@ -1,17 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ekinoks_elektron/ekranlar/Kart_ekleme_sayfasi.dart';
-import 'package:ekinoks_elektron/ekranlar/giris.dart';
-import 'package:ekinoks_elektron/ekranlar/harita.dart';
-import 'package:ekinoks_elektron/ekranlar/isletme/isletmekayit.dart';
-import 'package:ekinoks_elektron/ekranlar/karekod.dart';
-import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
+import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
-import 'package:ekinoks_elektron/ekranlar/odeme_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'ekranlar/harita.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 Future<void> main() async {
@@ -33,7 +26,7 @@ class MyApp extends StatelessWidget {
         } else if (snapshot.hasData) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: _kayitKontrol(),
+            home: Kayitsayfasi(),
           );
         } else {
           return MaterialApp(
@@ -47,13 +40,5 @@ class MyApp extends StatelessWidget {
         }
       },
     );
-  }
-}
-
-Widget? _kayitKontrol() {
-  if (auth.currentUser == null) {
-    return Kayitsayfasi();
-  } else {
-    return ProfilSayfasi();
   }
 }

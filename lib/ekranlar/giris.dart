@@ -1,9 +1,12 @@
+import 'package:ekinoks_elektron/ekranlar/isletme/isletme_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
+import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:glass/glass.dart';
 
 String img = "assets/images/arkaplan.jpg";
 
@@ -15,6 +18,7 @@ class GirisEkrani extends StatefulWidget {
 class _GirisEkraniState extends State<GirisEkrani> {
   TextEditingController? _email;
   TextEditingController? _pass;
+  bool _isletmemi = false;
   @override
   void initState() {
     _email = TextEditingController();
@@ -35,12 +39,8 @@ class _GirisEkraniState extends State<GirisEkrani> {
     double _yuvarlanma = 30;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print(user!.displayName);
-          },
-        ),
         body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Stack(
             children: [
               Image.asset(img),
@@ -116,6 +116,25 @@ class _GirisEkraniState extends State<GirisEkrani> {
                           ),
                         )),
                   ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text("Are you a business?"),
+                        ),
+                        Switch(
+                            activeColor: Colors.white,
+                            activeTrackColor: Colors.green,
+                            inactiveTrackColor: Colors.red,
+                            value: _isletmemi,
+                            onChanged: (val) {
+                              setState(() {
+                                _isletmemi = val;
+                              });
+                            }),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 40, horizontal: 100),
@@ -173,10 +192,25 @@ class _GirisEkraniState extends State<GirisEkrani> {
     String _emailgir = _email!.text;
     String _passgir = _pass!.text;
     try {
+      HapticFeedback.lightImpact();
+
       if (user == null) {
-        oturumAcanUser = await auth.signInWithEmailAndPassword(
-            email: _emailgir, password: _passgir);
+        oturumAcanUser = await auth
+            .signInWithEmailAndPassword(email: _emailgir, password: _passgir)
+            .then((value) {
+          if (_isletmemi == true) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => IsletmeProfil()),
+                (route) => false);
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => ProfilSayfasi()),
+                (route) => false);
+          }
+        });
         user = auth.currentUser;
+        Fluttertoast.showToast(
+            msg: "Login Succes", backgroundColor: Colors.green);
       }
     } catch (e) {
       print(e);

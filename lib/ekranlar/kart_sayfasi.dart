@@ -1,3 +1,4 @@
+import 'package:ekinoks_elektron/ekranlar/Kart_ekleme_sayfasi.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_card/awesome_card.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,10 @@ class _KredikartisayfasiState extends State<Kredikartisayfasi> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (c) => KartEklemeSayfasi()));
+          },
           label: Text("Add Card"),
           icon: Icon(Icons.add),
           backgroundColor: Colors.black,

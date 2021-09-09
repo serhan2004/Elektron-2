@@ -27,3 +27,28 @@ void FbMagazaKayitEkle(
       .doc(uid)
       .set({"Magazabilgi": magazaKayitdetay}, SetOptions(merge: true));
 }
+
+void FbKullaniciKartEkle(
+    var uid,
+    TextEditingController kart_ismi,
+    TextEditingController cardHolderName,
+    TextEditingController cardNumbers,
+    TextEditingController cardCVV,
+    TextEditingController cardExpiry) {
+  String _kartcvv = cardCVV.text.toString();
+  String _kartnumaralari = cardNumbers.text.toString();
+  String _kartsahibi = cardHolderName.text.toString();
+  String _skt = cardExpiry.text.toString();
+  String _kart_isim = kart_ismi.text.toString();
+
+  Map<String, dynamic> Kartlar = Map();
+
+  Kartlar["Kart_ismi"] = _kart_isim;
+  Kartlar["Kart_sahibi"] = _kartsahibi;
+  Kartlar["Kart_numaralari"] = _kartnumaralari;
+  Kartlar["Kart_cvv"] = _kartcvv;
+  Kartlar["Kart_skt"] = _skt;
+  firestore.collection("Users").doc(uid).set({
+    "Kartlar": Kartlar,
+  }, SetOptions(merge: true));
+}

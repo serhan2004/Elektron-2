@@ -1,3 +1,5 @@
+import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
+import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -89,19 +91,27 @@ class ProfilSayfasi extends StatelessWidget {
                           vertical: 10, horizontal: 20),
                       child: Card(
                         elevation: 10,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 119, 136, 153),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                              "Credit Cards",
-                              Icon(
-                                Icons.credit_card,
-                                color: Colors.white,
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Kredikartisayfasi()));
+                          },
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 119, 136, 153),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Containericerik(
+                                "Credit Cards",
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ),
                         clipBehavior: Clip.antiAlias,
                       ),
                     ),
@@ -110,14 +120,22 @@ class ProfilSayfasi extends StatelessWidget {
                           vertical: 10, horizontal: 20),
                       child: Card(
                         elevation: 10,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 80,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 119, 136, 153),
-                              borderRadius: BorderRadius.circular(5)),
-                          child:
-                              Containericerik("Settings", Icon(Icons.settings)),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => AyarlarSayfasi()));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 119, 136, 153),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Containericerik(
+                                "Settings", Icon(Icons.settings)),
+                          ),
                         ),
                       ),
                     ),

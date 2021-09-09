@@ -1,3 +1,4 @@
+import 'package:ekinoks_elektron/ekranlar/isletme/isletmedetay/%C3%BCr%C3%BCnsayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,19 +79,27 @@ class IsletmeProfil extends StatelessWidget {
                           vertical: 10, horizontal: 20),
                       child: Card(
                         elevation: 10,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 119, 136, 153),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                              "Ürünler",
-                              Icon(
-                                Icons.list,
-                                color: Colors.white,
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UrunSayfasi()));
+                          },
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 119, 136, 153),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Containericerik(
+                                "Ürünler",
+                                Icon(
+                                  Icons.list,
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ),
                         clipBehavior: Clip.antiAlias,
                       ),
                     ),
