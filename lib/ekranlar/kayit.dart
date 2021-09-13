@@ -6,7 +6,6 @@ import 'package:ekinoks_elektron/firebaseislemleri/firebaseislemleri.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -59,6 +58,7 @@ class _KayitsayfasiState extends State<Kayitsayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    auth.signOut();
     double _yuvarlanma = 30;
     return Scaffold(
       body: SafeArea(

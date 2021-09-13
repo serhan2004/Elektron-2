@@ -195,22 +195,22 @@ class _GirisEkraniState extends State<GirisEkrani> {
       HapticFeedback.lightImpact();
 
       if (user == null) {
-        oturumAcanUser = await auth
-            .signInWithEmailAndPassword(email: _emailgir, password: _passgir)
-            .then((value) {
-          if (_isletmemi == true) {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => IsletmeProfil()),
-                (route) => false);
-          } else {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => ProfilSayfasi()),
-                (route) => false);
-          }
-        });
+        oturumAcanUser = await auth.signInWithEmailAndPassword(
+            email: _emailgir, password: _passgir);
+
         user = auth.currentUser;
         Fluttertoast.showToast(
             msg: "Login Succes", backgroundColor: Colors.green);
+        if (_isletmemi == true) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => IsletmeProfil()),
+              (route) => false);
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => IsletmeProfil()),
+              (route) => false);
+        }
+        user = auth.currentUser;
       }
     } catch (e) {
       print(e);

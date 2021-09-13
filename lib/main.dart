@@ -6,9 +6,11 @@ import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+int sayi = 5;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         } else if (snapshot.hasData) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: Kayitsayfasi(),
+            home: ProfilSayfasi(),
           );
         } else {
           return MaterialApp(

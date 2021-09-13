@@ -1,12 +1,22 @@
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
 import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
+import 'package:ekinoks_elektron/ekranlar/ppfotodegismesayfasi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class ProfilSayfasi extends StatelessWidget {
+String ProfilFotoLinki =
+    'https://i.pinimg.com/originals/f9/e4/d9/f9e4d92f175e120ac1840a29095e3646.jpg';
+
+class ProfilSayfasi extends StatefulWidget {
   ProfilSayfasi();
+
+  @override
+  _ProfilSayfasiState createState() => _ProfilSayfasiState();
+}
+
+class _ProfilSayfasiState extends State<ProfilSayfasi> {
   @override
   Widget build(BuildContext context) {
     int currentMoney = 1000;
@@ -28,14 +38,21 @@ class ProfilSayfasi extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          backgroundImage: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT62M1CCl_tVQhEeIuP4KSjpVJs2f9WinAUpA&usqp=CAU"),
-                          radius: 60,
-                        )),
+                    GestureDetector(
+                      onLongPress: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (b) => ProfilFotosuDegismeSayfasi()));
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 60.0,
+                            backgroundImage: NetworkImage(ProfilFotoLinki),
+                            backgroundColor: Colors.transparent,
+                          )),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

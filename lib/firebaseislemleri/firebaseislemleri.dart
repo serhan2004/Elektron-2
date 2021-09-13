@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/main.dart';
 import 'package:flutter/material.dart';
 
+
 void FirebasekayitEkle(
     var isim, var soyisim, var emaill, bool isletmemi, var uid) {
   Map<String, dynamic> kisiekle = Map();
@@ -9,6 +10,7 @@ void FirebasekayitEkle(
   kisiekle["soy_isim"] = soyisim;
   kisiekle["email"] = emaill;
   kisiekle["Isletme_Mi"] = isletmemi;
+  kisiekle["Bakiye"] = 0;
   if (isletmemi == false) firestore.collection("Users").doc(uid).set(kisiekle);
   if (isletmemi == true) firestore.collection("Stores").doc(uid).set(kisiekle);
 }

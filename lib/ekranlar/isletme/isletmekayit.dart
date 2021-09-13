@@ -50,11 +50,6 @@ class _IsletmeKayitState extends State<IsletmeKayit> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print(user!.uid);
-          },
-        ),
         appBar: AppBar(
           title: Text(
             "Create Your Store",
