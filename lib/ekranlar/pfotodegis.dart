@@ -1,8 +1,13 @@
 import 'dart:io';
-
+import 'dart:async';
+import 'package:ekinoks_elektron/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'kayit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'kayit.dart';
+import 'package:path/path.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilFotosuDegismeSayfasi extends StatefulWidget {
   const ProfilFotosuDegismeSayfasi({Key? key}) : super(key: key);
@@ -27,7 +32,26 @@ class _ProfilFotosuDegismeSayfasiState
     });
   }
 
-  Future uploadImageToFirebase(BuildContext context) async {}
+  uploadImageToFirebase() async {
+    File yuklenecekDosya = _imagefile!;
+    firebase_storage.Reference referansYol = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child("Profilresimleri")
+        .child(user!.uid)
+        .child("profilresmi.png");
+
+    firebase_storage.UploadTask yuklemeGorevi =
+        referansYol.putFile(yuklenecekDosya);
+
+    String downloadURL = await firebase_storage.FirebaseStorage.instance
+        .ref('Profilresimleri/${user!.uid}/profilresmi.png')
+        .getDownloadURL();
+    firestore
+        .collection("Users")
+        .doc(user!.uid)
+        .set({"ppfotolink": downloadURL}, SetOptions(merge: true));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +84,7 @@ class _ProfilFotosuDegismeSayfasiState
               width: 200,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: uploadImageToFirebase,
                 child: Text("Upload Picture"),
                 style: ElevatedButton.styleFrom(primary: Colors.red),
               ),

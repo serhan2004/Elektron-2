@@ -8,9 +8,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'pfotodegis.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 User? user = auth.currentUser;
+int? sayi;
 
 class Kayitsayfasi extends StatefulWidget {
   const Kayitsayfasi({Key? key}) : super(key: key);
@@ -315,8 +317,8 @@ class _KayitsayfasiState extends State<Kayitsayfasi> {
       UserCredential _credential = await auth.createUserWithEmailAndPassword(
           email: email!.text, password: pass!.text);
       User? yeniUser = _credential.user;
-
-      yeniUser!.updateDisplayName(String_name + String_surname);
+      String _isim = String_name + " " + String_surname;
+      yeniUser!.updateDisplayName(_isim);
 
       yeniUser.sendEmailVerification();
       user = auth.currentUser;

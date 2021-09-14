@@ -1,7 +1,8 @@
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
+import 'package:ekinoks_elektron/ekranlar/harita.dart';
 import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
-import 'package:ekinoks_elektron/ekranlar/ppfotodegismesayfasi.dart';
+import 'package:ekinoks_elektron/ekranlar/pfotodegis.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -21,12 +22,10 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
   Widget build(BuildContext context) {
     int currentMoney = 1000;
     int oldMoney = 5000;
-    String _name = "Mark";
-    String _surname = "Zuckerberg";
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -57,16 +56,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          _name,
+                          "asdads",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          _surname,
-                          style: TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -113,7 +105,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Kredikartisayfasi()));
+                                    builder: (context) => HaritaSayfasi()));
                           },
                           child: Container(
                               width: MediaQuery.of(context).size.width,
@@ -130,6 +122,30 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                               )),
                         ),
                         clipBehavior: Clip.antiAlias,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Card(
+                        elevation: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Kredikartisayfasi()));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 119, 136, 153),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Containericerik(
+                                "Map", Icon(Icons.map_outlined)),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(

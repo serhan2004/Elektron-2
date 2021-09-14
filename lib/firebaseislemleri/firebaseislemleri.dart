@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/main.dart';
 import 'package:flutter/material.dart';
 
-
 void FirebasekayitEkle(
     var isim, var soyisim, var emaill, bool isletmemi, var uid) {
   Map<String, dynamic> kisiekle = Map();
+  kisiekle["profilfotolink"] = "yok";
   kisiekle["isim"] = isim;
   kisiekle["soy_isim"] = soyisim;
   kisiekle["email"] = emaill;

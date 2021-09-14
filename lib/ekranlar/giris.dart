@@ -207,7 +207,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
               (route) => false);
         } else {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => IsletmeProfil()),
+              MaterialPageRoute(builder: (context) => ProfilSayfasi()),
               (route) => false);
         }
         user = auth.currentUser;
