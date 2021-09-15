@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         } else if (snapshot.hasData) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: IsletmeProfil(),
+            home: Kayitsayfasi(),
           );
         } else {
           return MaterialApp(

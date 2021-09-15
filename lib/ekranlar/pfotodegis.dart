@@ -32,6 +32,7 @@ class _ProfilFotosuDegismeSayfasiState
     });
   }
 
+  String downloadURL = "yok";
   uploadImageToFirebase() async {
     File yuklenecekDosya = _imagefile!;
     firebase_storage.Reference referansYol = firebase_storage
@@ -43,14 +44,24 @@ class _ProfilFotosuDegismeSayfasiState
 
     firebase_storage.UploadTask yuklemeGorevi =
         referansYol.putFile(yuklenecekDosya);
+    yuklemeGorevi.then((s) {
+      if (s.state.toString() == firebase_storage.TaskState.success.toString()) {
+        downloadURL = referansYol.getDownloadURL().toString();
+        print(referansYol.getDownloadURL().toString());
+        print(referansYol.getDownloadURL().toString());
+        print(referansYol.getDownloadURL().toString());
+        print(referansYol.getDownloadURL().toString());
+        print(referansYol.getDownloadURL().toString());
+      }
+    });
 
-    String downloadURL = await firebase_storage.FirebaseStorage.instance
-        .ref('Profilresimleri/${user!.uid}/profilresmi.png')
-        .getDownloadURL();
-    firestore
+    //= await firebase_storage.FirebaseStorage.instance
+    //  .ref('Profilresimleri/${user!.uid}/profilresmi.png')
+    //.getDownloadURL();
+    await firestore
         .collection("Users")
         .doc(user!.uid)
-        .set({"ppfotolink": downloadURL}, SetOptions(merge: true));
+        .set({"profilfotolink": downloadURL}, SetOptions(merge: true));
   }
 
   @override

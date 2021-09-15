@@ -1,8 +1,10 @@
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
-import 'package:ekinoks_elektron/ekranlar/isletme/isletmedetay/%C3%BCr%C3%BCnsayfasi.dart';
+import 'package:ekinoks_elektron/ekranlar/isletme/isletmedetay/urunsayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
 
 class IsletmeProfil extends StatelessWidget {
   IsletmeProfil();
@@ -87,19 +89,28 @@ class IsletmeProfil extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => UrunSayfasi()));
                           },
-                          child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 119, 136, 153),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Containericerik(
-                                "Ürünler",
-                                Icon(
-                                  Icons.list,
-                                  color: Colors.white,
-                                ),
-                              )),
+                          child: GestureDetector(
+                            onTap: () {
+                              Vibration.vibrate(duration: 100);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (c) => UrunSayfasi()));
+                            },
+                            child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 119, 136, 153),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Containericerik(
+                                  "Ürünler",
+                                  Icon(
+                                    Icons.list,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                          ),
                         ),
                         clipBehavior: Clip.antiAlias,
                       ),
@@ -120,8 +131,7 @@ class IsletmeProfil extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 119, 136, 153),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                                "Ayarlar", Icon(Icons.settings)),
+                            child: Containericerik("Harita", Icon(Icons.map)),
                           ),
                         ),
                       ),

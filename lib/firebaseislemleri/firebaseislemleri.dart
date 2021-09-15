@@ -54,3 +54,32 @@ void FbKullaniciKartEkle(
     "Kartlar": Kartlar,
   }, SetOptions(merge: true));
 }
+
+void FbStoreUrunekle(
+  var uid,
+  TextEditingController urunIsim,
+  TextEditingController urunKategori,
+  TextEditingController stt,
+  TextEditingController stok,
+  TextEditingController fiyat,
+) {
+  String urunIsim_String = urunIsim.text.toString().toUpperCase();
+  String urunKategori_String = urunKategori.text.toString().toUpperCase();
+  String stt_String = stt.text.toString().toUpperCase();
+  int stok_int = int.parse(stok.text);
+  int fiyat_int = int.parse(fiyat.text);
+  Map Urundetay = {
+    "Urunismi": urunIsim_String,
+    "UrunKategori": urunKategori_String,
+    "SonTuketimTarihi": stt_String,
+    "Stok": stok_int,
+    "Fiyat": fiyat_int,
+    "EklenmeTarihi": DateTime.now()
+  };
+  Map urun = {urunIsim_String: Urundetay};
+
+  firestore
+      .collection("Stores")
+      .doc(uid)
+      .set({"Urunler": urun}, SetOptions(merge: true));
+}

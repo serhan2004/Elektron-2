@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  vibration: ^1.7.4-nullsafety.0
   animated_text_kit: ^4.2.1
   awesome_card: ^1.1.5
   cloud_firestore: ^2.5.0

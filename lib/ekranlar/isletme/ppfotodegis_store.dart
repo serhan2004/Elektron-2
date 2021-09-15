@@ -45,9 +45,9 @@ class _PPfotodegisStoreState extends State<PPfotodegisStore> {
     String downloadURL = await firebase_storage.FirebaseStorage.instance
         .ref('Profilresimleri/${user!.uid}/profilresmi.png')
         .getDownloadURL();
-    print(downloadURL);
+
     firestore
-        .collection("Stores")
+        .collection("Users")
         .doc(user!.uid)
         .set({"ppfotolink": downloadURL}, SetOptions(merge: true));
   }
