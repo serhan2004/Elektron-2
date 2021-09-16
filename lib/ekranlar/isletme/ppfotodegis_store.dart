@@ -1,22 +1,27 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
 import 'package:ekinoks_elektron/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import '../kayit.dart';
+import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
+import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PPfotodegisStore extends StatefulWidget {
-  const PPfotodegisStore({Key? key}) : super(key: key);
+class ProfilFotosuDegismeSayfasi extends StatefulWidget {
+  const ProfilFotosuDegismeSayfasi({Key? key}) : super(key: key);
 
   @override
-  _PPfotodegisStoreState createState() => _PPfotodegisStoreState();
+  _ProfilFotosuDegismeSayfasiState createState() =>
+      _ProfilFotosuDegismeSayfasiState();
 }
 
-class _PPfotodegisStoreState extends State<PPfotodegisStore> {
+class _ProfilFotosuDegismeSayfasiState
+    extends State<ProfilFotosuDegismeSayfasi> {
   final _picker = ImagePicker();
   File? _imagefile;
   Future PickImage() async {
@@ -30,6 +35,7 @@ class _PPfotodegisStoreState extends State<PPfotodegisStore> {
     });
   }
 
+  String downloadURL = "yok";
   uploadImageToFirebase() async {
     File yuklenecekDosya = _imagefile!;
     firebase_storage.Reference referansYol = firebase_storage
@@ -38,18 +44,13 @@ class _PPfotodegisStoreState extends State<PPfotodegisStore> {
         .child("Profilresimleri")
         .child(user!.uid)
         .child("profilresmi.png");
-
-    firebase_storage.UploadTask _yuklemeGorevi =
+    firebase_storage.UploadTask uploadTask =
         referansYol.putFile(yuklenecekDosya);
-    await Future.delayed(Duration(seconds: 2));
-    String downloadURL = await firebase_storage.FirebaseStorage.instance
-        .ref('Profilresimleri/${user!.uid}/profilresmi.png')
-        .getDownloadURL();
-
+    var url = await (await uploadTask).ref.getDownloadURL();
     firestore
-        .collection("Users")
+        .collection("Stores")
         .doc(user!.uid)
-        .set({"ppfotolink": downloadURL}, SetOptions(merge: true));
+        .set({"profilfotolink": url}, SetOptions(merge: true));
   }
 
   @override
@@ -83,8 +84,14 @@ class _PPfotodegisStoreState extends State<PPfotodegisStore> {
               width: 200,
               height: 50,
               child: ElevatedButton(
-                onPressed: uploadImageToFirebase,
-                child: Text("Upload Picture"),
+                onPressed: () {
+                  uploadImageToFirebase();
+                  SystemNavigator.pop();
+                },
+                child: Text(
+                  "Upload Picture and exit app",
+                  style: TextStyle(fontSize: 13),
+                ),
                 style: ElevatedButton.styleFrom(primary: Colors.red),
               ),
             ),

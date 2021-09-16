@@ -1,13 +1,18 @@
 import 'dart:io';
 import 'dart:async';
+
+import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
 import 'package:ekinoks_elektron/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+import 'package:vibration/vibration.dart';
 import 'kayit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ekinoks_elektron/firebaseislemleri/getx/getxislemleri.dart';
 
 class ProfilFotosuDegismeSayfasi extends StatefulWidget {
   const ProfilFotosuDegismeSayfasi({Key? key}) : super(key: key);
@@ -41,27 +46,16 @@ class _ProfilFotosuDegismeSayfasiState
         .child("Profilresimleri")
         .child(user!.uid)
         .child("profilresmi.png");
-
-    firebase_storage.UploadTask yuklemeGorevi =
+    firebase_storage.UploadTask uploadTask =
         referansYol.putFile(yuklenecekDosya);
-    yuklemeGorevi.then((s) {
-      if (s.state.toString() == firebase_storage.TaskState.success.toString()) {
-        downloadURL = referansYol.getDownloadURL().toString();
-        print(referansYol.getDownloadURL().toString());
-        print(referansYol.getDownloadURL().toString());
-        print(referansYol.getDownloadURL().toString());
-        print(referansYol.getDownloadURL().toString());
-        print(referansYol.getDownloadURL().toString());
-      }
-    });
-
-    //= await firebase_storage.FirebaseStorage.instance
-    //  .ref('Profilresimleri/${user!.uid}/profilresmi.png')
-    //.getDownloadURL();
-    await firestore
+    var url = await (await uploadTask).ref.getDownloadURL();
+    firestore
         .collection("Users")
         .doc(user!.uid)
-        .set({"profilfotolink": downloadURL}, SetOptions(merge: true));
+        .set({"profilfotolink": url}, SetOptions(merge: true)).then((value) {
+      profilfotosu.ppfotolink = url;
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -96,7 +90,10 @@ class _ProfilFotosuDegismeSayfasiState
               height: 50,
               child: ElevatedButton(
                 onPressed: uploadImageToFirebase,
-                child: Text("Upload Picture"),
+                child: Text(
+                  "Upload Picture and exit app",
+                  style: TextStyle(fontSize: 13),
+                ),
                 style: ElevatedButton.styleFrom(primary: Colors.red),
               ),
             ),
@@ -106,3 +103,10 @@ class _ProfilFotosuDegismeSayfasiState
     );
   }
 }
+
+
+/*
+alert dialog fotoğraf seç fotoğraf değiştir.
+
+
+*/

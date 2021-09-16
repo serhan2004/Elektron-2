@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  get: ^4.3.8
   vibration: ^1.7.4-nullsafety.0
   animated_text_kit: ^4.2.1
   awesome_card: ^1.1.5
@@ -50,6 +51,12 @@ flutter:
   assets:
     - assets/images/arkaplan.jpg
     - assets/markers/tarihi_marker.png
+    - assets/markers/museum.png
+    - assets/markers/mosque.png
+    - assets/markers/train.png
+    - assets/markers/eczane.png
+    
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

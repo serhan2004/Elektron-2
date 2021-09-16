@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
 import 'package:ekinoks_elektron/ekranlar/isletme/isletme_sayfasi.dart';
+import 'package:ekinoks_elektron/ekranlar/karekod.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:ekinoks_elektron/ekranlar/profil_sayfasi.dart';
 

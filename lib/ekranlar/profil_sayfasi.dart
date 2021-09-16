@@ -1,14 +1,20 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
+import 'package:ekinoks_elektron/ekranlar/karekod.dart';
 import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:ekinoks_elektron/ekranlar/pfotodegis.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ekinoks_elektron/firebaseislemleri/getx/getxislemleri.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'kayit.dart';
 
-String ProfilFotoLinki =
-    'https://i.pinimg.com/originals/f9/e4/d9/f9e4d92f175e120ac1840a29095e3646.jpg';
+ppfotocontroller profilfotosu = Get.put(ppfotocontroller());
 
 class ProfilSayfasi extends StatefulWidget {
   ProfilSayfasi();
@@ -17,197 +23,205 @@ class ProfilSayfasi extends StatefulWidget {
   _ProfilSayfasiState createState() => _ProfilSayfasiState();
 }
 
+var scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _ProfilSayfasiState extends State<ProfilSayfasi> {
+  ppfotokontrol() async {
+    setState(() async {
+      DocumentSnapshot kisibilgi = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(user!.uid)
+          .get();
+      profilfotosu.ppfotolink = kisibilgi["profilfotolink"].toString();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ppfotokontrol();
+  }
+
   @override
   Widget build(BuildContext context) {
     int currentMoney = 1000;
     int oldMoney = 5000;
 
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                color: Color.fromARGB(255, 41, 75, 147),
-                //color: Colors.blue.shade800,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    GestureDetector(
-                      onLongPress: () async {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (b) => ProfilFotosuDegismeSayfasi()));
-                      },
-                      child: Padding(
+        child: Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(profilfotosu.ppfotolink.toString());
+        },
+      ),
+      key: scaffoldKey,
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 41, 75, 147),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              scaffoldKey.currentState!.openDrawer();
+            },
+          )),
+      drawer: Drawer(
+          child: ListView(children: [
+        Container(
+          height: 70,
+          child: const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 41, 75, 147),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Pages"),
+            ),
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.qr_code),
+          title: const Text("QR code scanner"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => KarekodSayfasi()),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.map),
+          title: const Text("Map"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HaritaSayfasi()),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.credit_card),
+          title: const Text("Credit Cards"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Kredikartisayfasi()),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text("Settings"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AyarlarSayfasi()),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text("Sign Out"),
+          onTap: () {
+            auth.signOut();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Kayitsayfasi()),
+            );
+          },
+        ),
+      ])),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              color: Color.fromARGB(255, 41, 75, 147),
+              //color: Colors.blue.shade800,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onLongPress: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => ProfilFotosuDegismeSayfasi()));
+                    },
+                    child: Obx(() => Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
                             radius: 60.0,
-                            backgroundImage: NetworkImage(ProfilFotoLinki),
+                            backgroundImage:
+                                NetworkImage(profilfotosu.ppfotolink),
                             backgroundColor: Colors.transparent,
-                          )),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "asdads",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
+                          ),
+                        )),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "asdads",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
+            ),
+            Container(
+              //color: Color.fromARGB(50, 245, 234, 196),
+              color: Color.fromARGB(255, 244, 240, 236),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text("Card Balance"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: SfLinearGauge(
+                      barPointers: [
+                        LinearBarPointer(value: oldMoney.toDouble())
+                      ],
+                      maximum: oldMoney.toDouble(),
+                      markerPointers: [
+                        LinearShapePointer(value: currentMoney.toDouble())
+                      ],
+                      ranges: [
+                        LinearGaugeRange(
+                          startValue: 0,
+                          endValue: currentMoney.toDouble(),
+                        )
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    )
-                  ],
-                ),
+                  ),
+                  Divider(
+                    thickness: 2,
+                  ),
+                  Center(
+                    child: Text(
+                      "Your purchase history",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          wordSpacing: 2,
+                          letterSpacing: 3),
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                //color: Color.fromARGB(50, 245, 234, 196),
-                color: Color.fromARGB(255, 244, 240, 236),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text("Card Balance"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: SfLinearGauge(
-                        barPointers: [
-                          LinearBarPointer(value: oldMoney.toDouble())
-                        ],
-                        maximum: oldMoney.toDouble(),
-                        markerPointers: [
-                          LinearShapePointer(value: currentMoney.toDouble())
-                        ],
-                        ranges: [
-                          LinearGaugeRange(
-                            startValue: 0,
-                            endValue: currentMoney.toDouble(),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Card(
-                        elevation: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HaritaSayfasi()));
-                          },
-                          child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 119, 136, 153),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Containericerik(
-                                "Credit Cards",
-                                Icon(
-                                  Icons.credit_card,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Card(
-                        elevation: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Kredikartisayfasi()));
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 119, 136, 153),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                                "Map", Icon(Icons.map_outlined)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Card(
-                        elevation: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => AyarlarSayfasi()));
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 119, 136, 153),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                                "Settings", Icon(Icons.settings)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        auth.signOut();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Kayitsayfasi()));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        child: Card(
-                          elevation: 10,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 145, 163, 176),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik(
-                                "SignOut", Icon(Icons.exit_to_app_rounded)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 300,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
 

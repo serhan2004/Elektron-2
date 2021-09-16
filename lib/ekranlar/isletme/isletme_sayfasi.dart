@@ -1,10 +1,13 @@
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
 import 'package:ekinoks_elektron/ekranlar/isletme/isletmedetay/urunsayfasi.dart';
+
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:vibration/vibration.dart';
+import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
+import 'package:ekinoks_elektron/ekranlar/karekod.dart';
+
+var scaffoldKey = GlobalKey<ScaffoldState>();
 
 class IsletmeProfil extends StatelessWidget {
   IsletmeProfil();
@@ -14,6 +17,72 @@ class IsletmeProfil extends StatelessWidget {
     String _surname = "Zuckerberg";
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
+        appBar: AppBar(
+            backgroundColor: Color.fromARGB(255, 41, 75, 147),
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                scaffoldKey.currentState!.openDrawer();
+              },
+            )),
+        drawer: Drawer(
+            child: ListView(children: [
+          Container(
+            height: 70,
+            child: const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 41, 75, 147),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Pages"),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.qr_code),
+            title: const Text("QR code scanner"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => KarekodSayfasi()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map),
+            title: const Text("Map"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HaritaSayfasi()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AyarlarSayfasi()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Sign Out"),
+            onTap: () {
+              auth.signOut();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Kayitsayfasi()),
+              );
+            },
+          ),
+        ])),
         body: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           child: Column(
@@ -89,28 +158,19 @@ class IsletmeProfil extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => UrunSayfasi()));
                           },
-                          child: GestureDetector(
-                            onTap: () {
-                              Vibration.vibrate(duration: 100);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (c) => UrunSayfasi()));
-                            },
-                            child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 119, 136, 153),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Containericerik(
-                                  "Ürünler",
-                                  Icon(
-                                    Icons.list,
-                                    color: Colors.white,
-                                  ),
-                                )),
-                          ),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 119, 136, 153),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Containericerik(
+                                "Ürünler",
+                                Icon(
+                                  Icons.list,
+                                  color: Colors.white,
+                                ),
+                              )),
                         ),
                         clipBehavior: Clip.antiAlias,
                       ),
@@ -131,7 +191,8 @@ class IsletmeProfil extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 119, 136, 153),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Containericerik("Harita", Icon(Icons.map)),
+                            child: Containericerik(
+                                "Ayarlar", Icon(Icons.settings)),
                           ),
                         ),
                       ),
