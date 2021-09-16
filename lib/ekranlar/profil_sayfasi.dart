@@ -49,11 +49,6 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
 
     return SafeArea(
         child: Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(profilfotosu.ppfotolink.toString());
-        },
-      ),
       key: scaffoldKey,
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 41, 75, 147),
