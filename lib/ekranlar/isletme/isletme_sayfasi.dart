@@ -1,16 +1,28 @@
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
 import 'package:ekinoks_elektron/ekranlar/isletme/isletmedetay/urunsayfasi.dart';
-
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
+import 'package:ekinoks_elektron/firebaseislemleri/getx/getxislemleri.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
 import 'package:ekinoks_elektron/ekranlar/karekod.dart';
+import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+ppfotocontroller ppfotosu = Get.put(ppfotocontroller());
 var scaffoldKey = GlobalKey<ScaffoldState>();
 
-class IsletmeProfil extends StatelessWidget {
-  IsletmeProfil();
+class IsletmeProfil extends StatefulWidget {
+  @override
+  _IsletmeProfilState createState() => _IsletmeProfilState();
+}
+
+class _IsletmeProfilState extends State<IsletmeProfil> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String _name = "Mark";
@@ -115,7 +127,7 @@ class IsletmeProfil extends StatelessWidget {
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
                           backgroundImage: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT62M1CCl_tVQhEeIuP4KSjpVJs2f9WinAUpA&usqp=CAU"),
+                              "https://cdn4.vectorstock.com/i/1000x1000/08/28/shop-store-flat-icon-vector-14270828.jpg"),
                           radius: 60,
                         )),
                     Row(

@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:ekinoks_elektron/firebaseislemleri/firebaseislemleri.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
+import 'dart:collection';
 
 class UrunSayfasi extends StatefulWidget {
   const UrunSayfasi({Key? key}) : super(key: key);
@@ -31,7 +33,76 @@ class _UrunSayfasiState extends State<UrunSayfasi> {
         body: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           child: Column(
-            children: [],
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Products")
+                    .doc(user!.uid)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot asyncSnapshot) {
+                  if (asyncSnapshot.data.data() != null) {
+                    String Urun =
+                        asyncSnapshot.data.data()["Urunler"].toString();
+                    List<String> parantezlersilinmis = Urun.split("");
+                    parantezlersilinmis.removeAt(0);
+                    parantezlersilinmis.removeLast();
+                    String Parantezi_silinmis = parantezlersilinmis.join();
+
+                    return SizedBox(
+                      height: 200,
+                      width: double.infinity,
+                      child: ListView.builder(
+                          itemCount: asyncSnapshot.data["Urunler"].keys.length,
+                          itemBuilder: (context, index) {
+                            return Center(
+                              child: Card(
+                                elevation: 10,
+                                color: Colors.white70,
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            child: Text("${index + 1}  "),
+                                            decoration: BoxDecoration(
+                                                color: Colors.green.shade100,
+                                                shape: BoxShape.circle),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(asyncSnapshot
+                                              .data["Urunler"].keys
+                                              .elementAt(index)
+                                              .toString()
+                                              .toLowerCase()),
+                                        ],
+                                      ),
+                                      Text(
+                                        " ${asyncSnapshot.data["Urunler"].values.elementAt(index)}",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
+                                  ),
+                                  height: 50,
+                                  width: double.infinity,
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  } else {
+                    return Center(child: Text("Hiç Ürün eklenmedi"));
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),

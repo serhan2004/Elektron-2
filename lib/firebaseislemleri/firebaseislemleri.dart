@@ -76,12 +76,11 @@ void FbStoreUrunekle(
     "SonTuketimTarihi": stt_String,
     "Stok": stok_int,
     "Fiyat": fiyat_int,
-    "EklenmeTarihi": DateTime.now()
   };
   Map urun = {urunIsim_String: Urundetay};
 
   firestore
-      .collection("Stores")
+      .collection("Products")
       .doc(uid)
       .set({"Urunler": urun}, SetOptions(merge: true));
 }

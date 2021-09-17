@@ -1,8 +1,11 @@
 import 'package:awesome_card/awesome_card.dart';
 import 'package:ekinoks_elektron/firebaseislemleri/firebaseislemleri.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'kayit.dart';
 import 'package:flutter/material.dart';
+
+List<kartData> kartlarim = [];
 
 class KartEklemeSayfasi extends StatefulWidget {
   const KartEklemeSayfasi({Key? key}) : super(key: key);
@@ -246,6 +249,12 @@ class _KartEklemeSayfasiState extends State<KartEklemeSayfasi> {
                     onTap: () {
                       FbKullaniciKartEkle(user!.uid, _kartismi, _cardHolderName,
                           _cardNumbers, _cardCVV, _cardExpriy);
+                      kartlarim.add(kartData(
+                          _cardHolderName.text.toString(),
+                          _kartismi.text.toString(),
+                          _cardExpriy.text.toString(),
+                          int.parse(_cardCVV.text),
+                          int.parse(_cardNumbers.text)));
                     },
                     child: Center(
                       child: Text(
@@ -265,4 +274,15 @@ class _KartEklemeSayfasiState extends State<KartEklemeSayfasi> {
       ),
     );
   }
+}
+
+class kartData {
+  String? _Kartisim;
+  String? _KartSahibi;
+  int? _kartNumaralari;
+  int? _cvv;
+  String? _cardexpriy;
+
+  kartData(this._KartSahibi, this._Kartisim, this._cardexpriy, this._cvv,
+      this._kartNumaralari);
 }
