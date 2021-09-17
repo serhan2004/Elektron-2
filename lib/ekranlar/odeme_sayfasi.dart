@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class OdemeSayfasi extends StatelessWidget {
   const OdemeSayfasi({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class OdemeSayfasi extends StatelessWidget {
                 height: 40,
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Vibration.vibrate(duration: 150);
+                  },
                   child: Text("Cancel"),
                   style: ElevatedButton.styleFrom(primary: Colors.red),
                 ),
@@ -28,7 +31,9 @@ class OdemeSayfasi extends StatelessWidget {
                 height: 40,
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Vibration.vibrate(duration: 150);
+                  },
                   child: Text("Confirm"),
                   style: ElevatedButton.styleFrom(primary: Colors.green),
                 ),

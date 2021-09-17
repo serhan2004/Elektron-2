@@ -79,7 +79,8 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                       Icons.verified_user_sharp,
                       color: Colors.orange,
                     ),
-                    backgroundColor: Colors.indigo,
+                    backgroundColor:
+                        Color.fromARGB(255, 18, 42, 82), //Colors.indigo,
                     heroTag: 2,
                     onPressed: () {
                       Vibration.vibrate(duration: 250);

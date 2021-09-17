@@ -31,7 +31,7 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 41, 75, 147),
+            backgroundColor: Color.fromARGB(255, 18, 42, 82),
             elevation: 0,
             leading: IconButton(
               icon: Icon(Icons.menu),
@@ -45,7 +45,7 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
             height: 70,
             child: const DrawerHeader(
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 41, 75, 147),
+                color: Color.fromARGB(255, 18, 42, 82),
               ),
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -101,7 +101,8 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                color: Color.fromARGB(255, 41, 75, 147),
+                color: Color.fromARGB(
+                    255, 18, 42, 82), //Color.fromARGB(255, 41, 75, 147),
                 //color: Colors.blue.shade800,
                 child: Column(
                   children: [
