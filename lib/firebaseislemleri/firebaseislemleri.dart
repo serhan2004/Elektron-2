@@ -84,3 +84,26 @@ void FbStoreUrunekle(
       .doc(uid)
       .set({"Urunler": urun}, SetOptions(merge: true));
 }
+
+void FbOdemeTamamlama(var uid, double tutar, String magazaid) {
+  final DocumentReference Turistref =
+      FirebaseFirestore.instance.collection("Users").doc(uid);
+  final DocumentReference MagazaRef =
+      FirebaseFirestore.instance.collection("Stores").doc(magazaid);
+  FirebaseFirestore.instance.runTransaction((transaction) async {
+    DocumentSnapshot TuristData = await Turistref.get();
+    DocumentSnapshot MagazaData = await MagazaRef.get();
+
+    var TuristBakiye = TuristData['Bakiye'];
+    var MagazaBakiye = MagazaData['Bakiye'];
+
+    if (TuristData.exists) {
+      if (TuristData['Bakiye'] >= tutar) {
+        transaction.update(Turistref, {"Bakiye": TuristBakiye - tutar});
+        transaction.update(MagazaRef, {"Bakiye": TuristBakiye + tutar});
+      } else {}
+    } else {
+      print("Bu kullanıcı Yok");
+    }
+  });
+}

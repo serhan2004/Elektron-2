@@ -17,11 +17,16 @@ class KarekodSayfasi extends StatefulWidget {
 class _KarekodSayfasiState extends State<KarekodSayfasi> {
   Result? currentResult;
   @override
+  void initState() {
+    Store_okutulanUrunler.clear();
+    Store_okutulanUrunler.add(user!.uid);
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        print(Store_okutulanUrunler);
-      }),
       backgroundColor: Colors.black,
       body: Column(
         children: [
@@ -33,6 +38,13 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                   currentResult = result;
                 });
               },
+            ),
+            Center(
+              child: Text(
+                "Scanned Value : $currentResult",
+                style: TextStyle(
+                    color: Colors.white, backgroundColor: Colors.black),
+              ),
             ),
           ]),
           SingleChildScrollView(
@@ -70,7 +82,6 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                     setState(() {
                       if (currentResult.toString() != "null") {
                         Store_okutulanUrunler.add(currentResult.toString());
-                        currentResult = null;
                       }
                     });
                     Vibration.vibrate(duration: 250);
