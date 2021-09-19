@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_code_dart_scan/qr_code_dart_scan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:vibration/vibration.dart';
 import 'kayit.dart';
+import 'package:get/get.dart';
 
 class KarekodSayfasi extends StatefulWidget {
   const KarekodSayfasi({Key? key}) : super(key: key);
@@ -17,6 +19,9 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        print(Store_okutulanUrunler);
+      }),
       backgroundColor: Colors.black,
       body: Column(
         children: [
@@ -38,11 +43,15 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                 FloatingActionButton.extended(
                   backgroundColor: Colors.red,
                   onPressed: () {
-                    Store_okutulanUrunler.removeLast();
+                    setState(() {
+                      if (Store_okutulanUrunler.length > 1) {
+                        Store_okutulanUrunler.removeLast();
+                      }
+                    });
                     Vibration.vibrate(duration: 250);
                     setState(() {
                       Fluttertoast.showToast(
-                          msg: currentResult.toString(),
+                          msg: Store_okutulanUrunler.toString(),
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
@@ -58,11 +67,16 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                   heroTag: 1,
                   backgroundColor: Colors.green,
                   onPressed: () {
-                    Store_okutulanUrunler.add(currentResult.toString());
+                    setState(() {
+                      if (currentResult.toString() != "null") {
+                        Store_okutulanUrunler.add(currentResult.toString());
+                        currentResult = null;
+                      }
+                    });
                     Vibration.vibrate(duration: 250);
                     setState(() {
                       Fluttertoast.showToast(
-                          msg: currentResult.toString(),
+                          msg: Store_okutulanUrunler.toString(),
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
@@ -83,9 +97,9 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
                         Color.fromARGB(255, 18, 42, 82), //Colors.indigo,
                     heroTag: 2,
                     onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (c) => ListToQrcode()));
                       Vibration.vibrate(duration: 250);
-                      Store_okutulanUrunler.forEach(
-                          (element) => print(element.toString()));
                     }),
               ],
             ),
@@ -101,3 +115,38 @@ class _KarekodSayfasiState extends State<KarekodSayfasi> {
 }
 
 List<dynamic> Store_okutulanUrunler = [user!.uid];
+
+class ListToQrcode extends StatefulWidget {
+  const ListToQrcode({Key? key}) : super(key: key);
+
+  @override
+  _ListToQrcodeState createState() => _ListToQrcodeState();
+}
+
+class _ListToQrcodeState extends State<ListToQrcode> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Read Qrcode"),
+      ),
+      body: Center(
+        child: Container(
+          height: 300,
+          width: 300,
+          child: SfBarcodeGenerator(
+            value: Store_okutulanUrunler.toString(),
+            symbology: QRCode(),
+            showValue: true,
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.exit_to_app_sharp),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+}

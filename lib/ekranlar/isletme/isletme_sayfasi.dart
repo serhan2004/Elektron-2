@@ -25,8 +25,6 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
 
   @override
   Widget build(BuildContext context) {
-    String _name = "Mark";
-    String _surname = "Zuckerberg";
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -115,7 +113,7 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
                           width: 10,
                         ),
                         Text(
-                          "Bakiyen : " + " 1500" + "₺",
+                          "Bakiyen : " + " 0" + "₺",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -131,22 +129,9 @@ class _IsletmeProfilState extends State<IsletmeProfil> {
                               "https://cdn4.vectorstock.com/i/1000x1000/08/28/shop-store-flat-icon-vector-14270828.jpg"),
                           radius: 60,
                         )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          _name,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          _surname,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
+                    Text(
+                      auth.currentUser!.displayName.toString(),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     SizedBox(
                       height: 10,

@@ -255,6 +255,8 @@ class _KartEklemeSayfasiState extends State<KartEklemeSayfasi> {
                           _cardExpriy.text.toString(),
                           int.parse(_cardCVV.text),
                           int.parse(_cardNumbers.text)));
+
+                      Navigator.pop(context);
                     },
                     child: Center(
                       child: Text(

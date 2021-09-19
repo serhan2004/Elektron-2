@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 void FirebasekayitEkle(
     var isim, var soyisim, var emaill, bool isletmemi, var uid) {
   Map<String, dynamic> kisiekle = Map();
-  kisiekle["profilfotolink"] = "yok";
+  kisiekle["profilfotolink"] = "https://i.ibb.co/B3BbBhP/indir.jpg";
 
   kisiekle["isim"] = isim;
   kisiekle["soy_isim"] = soyisim;
@@ -52,7 +52,7 @@ void FbKullaniciKartEkle(
   Kartlar["Kart_numaralari"] = _kartnumaralari;
   Kartlar["Kart_cvv"] = _kartcvv;
   Kartlar["Kart_skt"] = _skt;
-  firestore.collection("Users").doc(uid).set({
+  firestore.collection("CreditCards").doc(uid).set({
     "Kartlar": Kartlar,
   }, SetOptions(merge: true));
 }

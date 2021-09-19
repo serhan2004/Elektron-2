@@ -1,5 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/ekranlar/Kart_ekleme_sayfasi.dart';
+import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_card/awesome_card.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,7 +14,7 @@ class Kredikartisayfasi extends StatefulWidget {
 }
 
 class _KredikartisayfasiState extends State<Kredikartisayfasi> {
-  Future fetchListeleKart() async {}
+  bool _kartiCevir = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,35 +40,58 @@ class _KredikartisayfasiState extends State<Kredikartisayfasi> {
           textStyle: TextStyle(fontSize: 25),
         ),
       ),
-      body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                CreditCard(
-                    cardNumber: "550 7879 4864 7854",
-                    cardExpiry: "10/25",
-                    cardHolderName: "Card Holder",
-                    cvv: "456",
-                    bankName: "Axis Bank",
-                    cardType: CardType
-                        .masterCard, // Optional if you want to override Card Type
-                    showBackSide: false,
-                    frontBackground: CardBackgrounds.black,
-                    backBackground: CardBackgrounds.white,
-                    showShadow: true,
-                    textExpDate: 'Exp. Date',
-                    textName: 'Name',
-                    textExpiry: 'MM/YY'),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            );
-          }),
+      body: Column(
+        children: [
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("CreditCards")
+                .doc(user!.uid)
+                .snapshots(),
+            builder: (context, AsyncSnapshot asyncSnapshot) {
+              if (asyncSnapshot.data.data() != null) {
+                var liste_elemanlari =
+                    asyncSnapshot.data.data().values.elementAt(0).values;
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (_kartiCevir == false) {
+                            setState(() {
+                              _kartiCevir = true;
+                            });
+                          } else {
+                            setState(() {
+                              _kartiCevir = false;
+                            });
+                          }
+                        },
+                        child: CreditCard(
+                          cardNumber: liste_elemanlari.elementAt(1).toString(),
+                          cardExpiry: liste_elemanlari.elementAt(3).toString(),
+                          cardHolderName:
+                              liste_elemanlari.elementAt(2).toString(),
+                          cvv: liste_elemanlari.elementAt(0).toString(),
+                          bankName: "Electron Bank",
+                          cardType: CardType
+                              .masterCard, // Optional if you want to override Card Type
+                          showBackSide: _kartiCevir,
+                          frontBackground: CardBackgrounds.black,
+                          backBackground: CardBackgrounds.white,
+                          showShadow: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return Center(child: Text("You don't have a card"));
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

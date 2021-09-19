@@ -91,7 +91,7 @@ class _ProfilFotosuDegismeSayfasiState
               child: ElevatedButton(
                 onPressed: uploadImageToFirebase,
                 child: Text(
-                  "Upload Picture and exit app",
+                  "Upload Picture",
                   style: TextStyle(fontSize: 13),
                 ),
                 style: ElevatedButton.styleFrom(primary: Colors.red),

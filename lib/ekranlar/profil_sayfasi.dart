@@ -2,8 +2,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ekinoks_elektron/ekranlar/ayarlar.dart';
+import 'package:ekinoks_elektron/ekranlar/ekinoks_elektron.dart';
 import 'package:ekinoks_elektron/ekranlar/harita.dart';
 import 'package:ekinoks_elektron/ekranlar/karekod.dart';
+import 'package:ekinoks_elektron/ekranlar/karekod_turist.dart';
 import 'package:ekinoks_elektron/ekranlar/kart_sayfasi.dart';
 import 'package:ekinoks_elektron/ekranlar/kayit.dart';
 import 'package:ekinoks_elektron/ekranlar/pfotodegis.dart';
@@ -45,7 +47,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
   @override
   Widget build(BuildContext context) {
     int currentMoney = 1000;
-    int oldMoney = 5000;
+    int firebaseMoney = 5000;
 
     return SafeArea(
         child: Scaffold(
@@ -80,7 +82,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => KarekodSayfasi()),
+              MaterialPageRoute(builder: (context) => TuristKarekod()),
             );
           },
         ),
@@ -125,6 +127,16 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             );
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.people),
+          title: const Text("Ekinoks Elektron"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EkinoksElektron()),
+            );
+          },
+        ),
       ])),
       body: SingleChildScrollView(
         child: Column(
@@ -159,7 +171,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "asdads",
+                        user!.displayName.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       ),
@@ -184,9 +196,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: SfLinearGauge(
                       barPointers: [
-                        LinearBarPointer(value: oldMoney.toDouble())
+                        LinearBarPointer(value: firebaseMoney.toDouble())
                       ],
-                      maximum: oldMoney.toDouble(),
+                      maximum: firebaseMoney.toDouble(),
                       markerPointers: [
                         LinearShapePointer(value: currentMoney.toDouble())
                       ],
